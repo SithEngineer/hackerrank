@@ -1,50 +1,40 @@
 function Node (parent, value) {
     this.parent = parent;
     this.value = value;
-    this.children = undefined; // children[0] -> A path,  children[1] -> B path
+    this.children = []; // children[0] -> A path,  children[1] -> B path
 }
 
-// resultTreeRoot = the tree root node
-// treeDepth = the depth the tree must have
+// nodePath = string like "aab"
 // a = A value
 // b = B value
-// returns the distances, from the leafs
-function createTree(resultTreeRoot, treeDepth, A, B ) {
-    var nodeQueue = [resultTreeRoot];
-    var currentValue = 1;
+function pushNodeToTree(rootNode, nodePath, a, b) {
+    var pathSum = 0;
+    var currentRoot = rootNode;
     
-    var maxValueForTreeDepth = Math.pow(2, treeDepth ) - 2; 
-    // - 2 because root node is created and we start with currentValue = 1
+    for(var idx=0 ; idx < nodePath.length ; ++idx ) {
+        
+        var isA = nodePath[idx] === 'a';
+        pathSum += ( isA ? a : b );
 
-    while(currentValue <= maxValueForTreeDepth) {
-        var currentNode = nodeQueue[0]; // peek
-
-        if(!currentNode.children) {
-            currentNode.children = [];
-        }
-
-        var isLeft = currentValue % 2 === 1;
-        if(isLeft) {
-            var newNode = new Node(currentNode, currentNode.value + A);
-            currentNode.children[0] = newNode;
-            nodeQueue.push(currentNode.children[0]);
-        }
+        if(isA) {
+            // follow the A path
+            if(!currentRoot.children[0]) {
+                currentRoot.children[0] = new Node(currentRoot, pathSum);
+            }
+            currentRoot = currentRoot.children[0];
+        } 
         else {
-            var newNode = new Node(currentNode, currentNode.value + B);
-            currentNode.children[1] = newNode;
-            nodeQueue.push(newNode);
-            // pop the parent node from queue
-            nodeQueue.splice(0, 1);
+            // follow the B path
+            if(!currentRoot.children[1]) {
+                currentRoot.children[1] = new Node(currentRoot, pathSum);
+            }
+            currentRoot = currentRoot.children[1];
         }
-
-        currentValue++;
     }
 }
 
-// transverse the leafs of the tree
 function getLeafs(rootNode) {
     var result = [];
-    var resultAsString = "";
 
     // going with a breadth-first search
     var nodesToTransverse = [rootNode];
@@ -53,34 +43,64 @@ function getLeafs(rootNode) {
 
         var currentNode = nodesToTransverse.splice(0,1)[0]; // pop like operation
 
-        // if the current node has children 
         if(currentNode.children && currentNode.children.length>0) {
-            // push current node children to the end of the queue
+            // push more nodes to the end of the queue
             for (var idx=0 ; idx < currentNode.children.length ; ++idx) {
-            	if(currentNode.children[idx]) {
-            		// if the child node exists push it
-            		nodesToTransverse.push(currentNode.children[idx]);
-            	}
+                if(currentNode.children[idx]) {
+                    // if the child node exists push it
+                    nodesToTransverse.push(currentNode.children[idx]);
+                }
             }
         } else {
-            // save only the node value (if not already saved), not the node itself
             if(result.indexOf(currentNode.value)===-1) {
                 result.push(currentNode.value); 
-                resultAsString += (currentNode.value + " ");
+                // save only the node value (if not already saved), not the node itself
             }
         }
 
     }
 
-    return resultAsString;
+    return result;
+}
+
+// !needs improvment!
+// only translates number (base 10) to "abab" (or binary) string :(
+function getNodePathTo (number, numberBase) {
+    var result = "";
+
+    do {
+
+        if((number & 1) === 1) {
+            result += 'b';
+        } 
+        else {
+            result += 'a';
+        }
+
+        number = number > 1;
+    
+    } while(number>0);
+
+    return result;
 }
 
 function calculateNextPossibleDistance(nrStones, A, B) {
+    var result = [];
     var resultTreeRoot = new Node(undefined, 0);
 
-    createTree(resultTreeRoot, nrStones, A, B );
-	
-	return getLeafs(resultTreeRoot);
+    var numberBase = 2; // A and B
+    var maxValue = Math.pow(nrStones, numberBase);
+
+    for(var currentNumber = 0 ; currentNumber < maxValue ; ++currentNumber ) {
+        pushNodeToTree(
+            resultTreeRoot, 
+            getNodePathTo(currentNumber, numberBase), 
+            A, 
+            B
+        );
+    }
+
+    return getLeafs(resultTreeRoot);
 }
 
 function processData (input) {
@@ -89,13 +109,12 @@ function processData (input) {
 
     for(var test = 0; test < T ; ++test ) {
         var vars = inputAsInts.splice(0, 3);
-        
         print(
-        	calculateNextPossibleDistance(
+            calculateNextPossibleDistance(
                 vars[0],    // nr stones
                 vars[1],    // A
                 vars[2]     // B
-            ).toString().replace(/,/g, " ")
+            )
         );
     }
 }

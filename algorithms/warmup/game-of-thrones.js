@@ -1,6 +1,34 @@
 function processData (input) {
-    var lines = input.split('\n');
-    // TODO
+    var charOffset = 'a'.charCodeAt(0);
+    var charCount = new Array(26);
+    var position = 0;
+
+    for(var idx=0 ; idx < input.length ; ++idx ) {
+        position = input.charCodeAt(idx) - charOffset;
+        if(!charCount[position]) {
+            charCount[position] = 0;
+        }
+
+        charCount[position]++;
+    }
+
+    var foundAnImpair = false;
+
+    for(var idx=0 ; idx < charCount.length ; ++idx ) {
+        if(foundAnImpair) {
+            if(charCount[idx]%2==1) {
+                // we cannot have two odd char counts in an anagram 
+                print("NO")
+                return;
+            }
+        } else {
+            if(charCount[idx]%2==1) {
+                foundAnImpair = true;
+            }
+        }
+    }
+
+    print("YES");
 }
 
 function charArrayToIntArray (arrayChars) {
