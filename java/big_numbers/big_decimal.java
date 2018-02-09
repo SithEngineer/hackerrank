@@ -1,5 +1,3 @@
-package io.github.sithengineer.java.big_numbers;
-
 import java.math.BigDecimal;
 import java.util.Arrays;
 import java.util.Comparator;

@@ -1,5 +1,3 @@
-package io.github.sithengineer.algorithms.implementation;
-
 import java.util.Scanner;
 
 public class find_digits_Solution {

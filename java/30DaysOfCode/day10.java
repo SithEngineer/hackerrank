@@ -1,5 +1,3 @@
-package io.github.sithengineer.java.thirtyDays;
-
 import java.util.Scanner;
 
 public class day10 {

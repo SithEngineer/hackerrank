@@ -1,5 +1,3 @@
-package io.github.sithengineer.java.strings;
-
 import java.util.Scanner;
 
 public class string_reverse {

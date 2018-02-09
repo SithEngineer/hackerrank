@@ -1,5 +1,3 @@
-package io.github.sithengineer.algorithms.implementation;
-
 import java.util.LinkedList;
 import java.util.Scanner;
 

@@ -1,5 +1,3 @@
-package io.github.sithengineer.java.introduction;
-
 import java.security.Permission;
 import java.util.Scanner;
 

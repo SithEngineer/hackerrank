@@ -1,5 +1,3 @@
-package io.github.sithengineer.algorithms.warmup;
-
 import java.util.Scanner;
 
 public class single_array_sum {

@@ -1,5 +1,3 @@
-package io.github.sithengineer.java.introduction;
-
 import java.util.Scanner;
 
 public class output_formatting {

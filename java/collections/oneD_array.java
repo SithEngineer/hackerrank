@@ -1,5 +1,3 @@
-package io.github.sithengineer.java.collections;
-
 import java.util.Scanner;
 
 public class oneD_array {

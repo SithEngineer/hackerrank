@@ -1,5 +1,3 @@
-package io.github.sithengineer.java.exception_handling;
-
 import java.util.Scanner;
 
 public class exception_handling_try_catch {
