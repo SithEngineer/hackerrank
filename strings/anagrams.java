@@ -1,5 +1,3 @@
-package io.github.sithengineer.strings;
-
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;

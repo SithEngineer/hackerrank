@@ -1,4 +1,4 @@
-package io.github.sithengineer.thirtyDaysOfCode;
+
 
 import java.util.Scanner;
 

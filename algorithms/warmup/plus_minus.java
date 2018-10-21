@@ -1,4 +1,4 @@
-package io.github.sithengineer.warmup;
+
 
 import java.util.Scanner;
 
